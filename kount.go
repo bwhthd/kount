@@ -23,7 +23,7 @@ type Car struct {
 
 func main() {
 	results, _, err := CheckThenPanic()
-	err = ioutil.WriteFile("results.txt", results, 0644)
+	err = ioutil.WriteFile("output.txt", results, 0644)
 	check(err)
 }
 
@@ -72,9 +72,10 @@ func ParsePage(html string, BatchID int) ([]Car, int, error) {
 	cars := doc.Find("ul", "class", "rows").FindAll("li")
 
 	for _, car := range cars {
-		RemoteID, _ := strconv.Atoi(car.Attrs()["data-pid"])
-		Price := FindPrice(car)
+		RemoteID, err := strconv.Atoi(car.Attrs()["data-pid"])
+		check(err)
 
+		Price := FindPrice(car)
 		Title := car.Find("a", "class", "result-title").Text()
 		DatePosted := car.Find("time", "class", "result-date").Attrs()["datetime"]
 		Seen := time.Now().String()
