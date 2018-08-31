@@ -1,4 +1,4 @@
-package kount
+package main
 
 import (
 	"encoding/json"
@@ -53,8 +53,6 @@ func TestParsePage(t *testing.T) {
 	if len(cars) != 120 {
 		t.Errorf("cars is expected to be 120, got: %s", string(len(cars)))
 	}
-
-	//check that all cars have numeric prices, titles, etc (all fields)
 }
 
 func BenchmarkParsePage(b *testing.B) {

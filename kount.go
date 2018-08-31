@@ -1,7 +1,8 @@
-package kount
+package main
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"strconv"
 	"strings"
 	"time"
@@ -18,6 +19,12 @@ type Car struct {
 	Price      int
 	DatePosted string
 	Seen       string
+}
+
+func main() {
+	results, _, err := CheckThenPanic()
+	err = ioutil.WriteFile("results.txt", results, 0644)
+	check(err)
 }
 
 // CheckThenPanic scan of the inventory for 'Subaru' on CL
@@ -79,14 +86,15 @@ func ParsePage(html string, BatchID int) ([]Car, int, error) {
 	return results, NumResults, nil
 }
 
-// FindPrice without errors
+// FindPrice method to handle case where there is no price
 func FindPrice(car soup.Root) int {
-	Price := 0
 	PriceText := car.Find("span", "class", "result-price")
 
 	if PriceText.Error == nil {
-		Price, _ = strconv.Atoi(strings.Trim(PriceText.Text(), "$")) // TODO: don't ignore this error
+		Price, err1 := strconv.Atoi(strings.Trim(PriceText.Text(), "$"))
+		check(err1)
+		return Price
 	}
 
-	return Price
+	return 0
 }
