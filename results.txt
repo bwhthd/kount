@@ -1,0 +1,7 @@
+goos: darwin
+goarch: amd64
+pkg: github.com/bwhthd/kount
+BenchmarkCheckThenPanic-8   	       3	 431669825 ns/op
+BenchmarkParsePage-8        	     300	   5551748 ns/op
+PASS
+ok  	github.com/bwhthd/kount	6.213s

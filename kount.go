@@ -2,7 +2,6 @@ package kount
 
 import (
 	"encoding/json"
-	"io"
 	"strconv"
 	"strings"
 	"time"
@@ -10,18 +9,6 @@ import (
 	"github.com/anaskhan96/soup"
 	"github.com/go-resty/resty"
 )
-
-type errWriter struct {
-	w   io.Writer
-	err error
-}
-
-func (ew *errWriter) write(buf []byte) {
-	if ew.err != nil {
-		return
-	}
-	_, ew.err = ew.w.Write(buf)
-}
 
 // Car is the data we want from the response
 type Car struct {
